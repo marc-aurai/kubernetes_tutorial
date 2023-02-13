@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>main &mdash; Kubernetes Tutorial 13.02.2023 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Kubernetes Tutorial
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">fastAPI</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Kubernetes Tutorial</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="kn">import</span> <span class="nn">mlflow</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pytz</span>
+<span class="kn">import</span> <span class="nn">utils.schemas</span> <span class="k">as</span> <span class="nn">_schemas</span>
+<span class="kn">import</span> <span class="nn">utils.services</span> <span class="k">as</span> <span class="nn">_services</span>
+<span class="kn">import</span> <span class="nn">sqlalchemy.orm</span> <span class="k">as</span> <span class="nn">_orm</span>
+<span class="kn">import</span> <span class="nn">uvicorn</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">FastAPI</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+<span class="n">_services</span><span class="o">.</span><span class="n">create_database</span><span class="p">()</span>
+
+<span class="n">logged_model</span> <span class="o">=</span> <span class="s2">&quot;/Users/marcblomvliet/AURAI/training_marc/API_kubernetes/fastAPI/question_model&quot;</span>
+<span class="n">loaded_model</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">pyfunc</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">logged_model</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/Users/marcblomvliet/AURAI/training_marc/API_kubernetes/fastAPI/utils/labels.json&quot;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="predict_pipeline"><a class="viewcode-back" href="../main.html#main.predict_pipeline">[docs]</a><span class="k">def</span> <span class="nf">predict_pipeline</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Perform prediction on the loaded Xgboost model (sklearn pipeline).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (dict): A dictionary inludinge the following keys: question1 (user input), question2 (user input) </span>
+<span class="sd">                    and the amount of words in the question (q1_words and q2_words).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        array: Prediction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">loaded_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="amount_words_in_question"><a class="viewcode-back" href="../main.html#main.amount_words_in_question">[docs]</a><span class="k">def</span> <span class="nf">amount_words_in_question</span><span class="p">(</span><span class="n">raw_input</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">new_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create two new keys: q1_words and q2_words. </span>
+<span class="sd">        That indicated the amount of words for each question.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        raw_input (dict): The user input data as a dictionary.</span>
+<span class="sd">        keys (list): The questions that you want to use to calculate the amount of words.</span>
+<span class="sd">        new_keys (list): Give the new features a name (q1_words and q2_words by default.)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: An extended dictionary with the new features: q1_words and q2_words.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">keys</span><span class="p">):</span>
+        <span class="n">raw_input</span><span class="p">[</span><span class="n">new_keys</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">raw_input</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">raw_input</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">raw_input</span></div>
+
+
+<div class="viewcode-block" id="read_rawinput"><a class="viewcode-back" href="../main.html#main.read_rawinput">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/raw_input/&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">read_rawinput</span><span class="p">(</span>  
+    <span class="n">skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">_orm</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">_services</span><span class="o">.</span><span class="n">get_db</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; View data from your table &#39;raw_input&#39; from sqlite_database.db</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        skip (int, optional): Skip the first amount of rows. Defaults to 0.</span>
+<span class="sd">        limit (int, optional): Amount of rows to view. Defaults to 10.</span>
+<span class="sd">        db (_orm.Session, optional): Connects to your sqlite_database.db. Defaults to Depends(_services.get_db).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Query: Returns your SQL query. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_services</span><span class="o">.</span><span class="n">get_rawinput</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="read_predict"><a class="viewcode-back" href="../main.html#main.read_predict">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/predictions/&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">read_predict</span><span class="p">(</span>
+    <span class="n">skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">_orm</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">_services</span><span class="o">.</span><span class="n">get_db</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; View data from your table &#39;Predictions&#39; from sqlite_database.db</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        skip (int, optional): Skip the first amount of rows. Defaults to 0.</span>
+<span class="sd">        limit (int, optional): Amount of rows to view. Defaults to 10.</span>
+<span class="sd">        db (_orm.Session, optional): Connects to your sqlite_database.db. Defaults to Depends(_services.get_db).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Query: Returns your SQL query. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_services</span><span class="o">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">skip</span><span class="o">=</span><span class="n">skip</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="create_predict"><a class="viewcode-back" href="../main.html#main.create_predict">[docs]</a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/predict/&quot;</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">_schemas</span><span class="o">.</span><span class="n">Predictions</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_predict</span><span class="p">(</span>
+    <span class="n">user</span><span class="p">:</span> <span class="n">_schemas</span><span class="o">.</span><span class="n">_CreatePrediction</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">_orm</span><span class="o">.</span><span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">_services</span><span class="o">.</span><span class="n">get_db</span><span class="p">)</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A post request, make a similarity prediction on two questions.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        user (_schemas._CreatePrediction): The user input format.</span>
+<span class="sd">        db (_orm.Session, optional): Connects to your sqlite_database.db. Defaults to Depends(_services.get_db).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: API response as a dictionary with UUID and prediction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+
+    <span class="sd">&quot;&quot;&quot;1. Raw input data handling&quot;&quot;&quot;</span>
+    <span class="n">UUID</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid1</span><span class="p">())</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="s1">&#39;Europe/Amsterdam&#39;</span><span class="p">))</span>
+
+    <span class="n">user_input</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">()</span>
+    <span class="n">user_input</span> <span class="o">=</span> <span class="n">amount_words_in_question</span><span class="p">(</span><span class="n">user_input</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;question1&quot;</span><span class="p">,</span> <span class="s2">&quot;question2&quot;</span><span class="p">],</span> <span class="n">new_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;q1_words&quot;</span><span class="p">,</span> <span class="s2">&quot;q2_words&quot;</span><span class="p">])</span>
+    <span class="c1">#_services.insert_raw_snowflake(input_data=user_input, UUID=UUID, created_at=created_at)</span>
+    <span class="n">_services</span><span class="o">.</span><span class="n">insert_raw_mongodb</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">user_input</span><span class="p">,</span> <span class="n">UUID</span><span class="o">=</span><span class="n">UUID</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">)</span>
+    <span class="n">_services</span><span class="o">.</span><span class="n">create_rawinput</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">UUID</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">,</span> <span class="n">raw_input</span><span class="o">=</span><span class="n">user_input</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;2. Prediction data handling&quot;&quot;&quot;</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">predict_pipeline</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">single_prediction</span><span class="p">)]</span> <span class="k">for</span> <span class="n">single_prediction</span> <span class="ow">in</span> <span class="n">prediction</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Raw Predictions: &quot;</span><span class="p">,</span> <span class="n">prediction</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Predictions:&quot;</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+    
+    <span class="n">_services</span><span class="o">.</span><span class="n">insert_predictions_mongodb</span><span class="p">(</span><span class="n">UUID</span><span class="o">=</span><span class="n">UUID</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">,</span> <span class="n">predictions</span><span class="o">=</span><span class="n">predictions</span><span class="p">)</span>
+    <span class="c1">#_services.insert_predictions_snowflake(UUID=UUID, created_at=created_at, predictions=predictions)</span>
+    <span class="k">return</span> <span class="n">_services</span><span class="o">.</span><span class="n">create_prediction</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span> <span class="n">PredictionID</span><span class="o">=</span><span class="n">UUID</span><span class="p">,</span> <span class="n">created_at</span><span class="o">=</span><span class="n">created_at</span><span class="p">,</span> <span class="n">pred</span><span class="o">=</span><span class="n">predictions</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Marc Blomvliet.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
