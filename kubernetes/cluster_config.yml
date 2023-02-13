@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tutorial-aurai-classifier
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tutorial-aurai-classifier
+  template:
+    metadata:
+      labels:
+        app: tutorial-aurai-classifier
+    spec:
+      containers:
+      - image: docker.io/library/tutorial-classifier:latest
+        name: tutorial-aurai-classifier
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8020
+        resources:
+          requests:
+            cpu: "200m"
+          limits: 
+            cpu: "2000m"
+          
+
+--- # LOAD-BALANCER
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-tutorial
+  labels:
+    app: tutorial-aurai-classifier
+spec:
+  type: LoadBalancer
+  selector:
+    app: tutorial-aurai-classifier
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 8020
+
+--- # AUTO-SCALER
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: autoscaler-tutorial
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: tutorial-aurai-classifier
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
