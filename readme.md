@@ -5,8 +5,8 @@ In this tutorial you will learn how to create an Docker image of your fastAPI ap
 This application includes the following: </br>
 * Takes two questions as input</br>
 * Returns a prediction whether the two questions are similar or not similar</br>
-* Saves the raw user input data in your mongoDB database </br>
-* Saves the predictions in your mongoDB database </br></br>
+* Saves the raw user input data in your MongoDB database </br>
+* Saves the predictions in your MongoDB database </br></br>
 
 *The application uses my own pre-trained model (with the use of MLFlow), the model is not very accurate but this is not the purpose of this training, neither to bother you with training your own model.* </br>
 
@@ -18,13 +18,13 @@ The Kubernetes cluster contains the following: </br>
 * Load balancer </br>
 * Auto scaler (Horizontal Pod Auto scaler)</br>
 
-After you created your kubernetes cluster, you will perform a stress/load test on your API and therfore on your Kubernetes cluster. </br>
+After you created your Kubernetes cluster, you will perform a stress/load test on your API and therefore on your Kubernetes cluster. </br>
 
 *The pink sections (3.8, 3.9 and 3.10) are optional and just for information.* </br>
 
 # 1. Create your own MongoDB Database
 ## 1.1 
-Make sure to create your own account on the mongoDB website: </br>
+Make sure to create your own account on the MongoDB website: </br>
 https://account.mongodb.com/account/login?signedOut=true </br>
 
 ### 1.1.1
@@ -64,13 +64,13 @@ https://docs.docker.com/get-docker/ </br>
 Go to http://0.0.0.0:8020/docs </br>
 <img align="left" src="images/Docker_step_1.png" width="750"/> <br clear="left"/>
 
-And test your API, Click on: POST /predict/  and select 'Try it out'</br>
-Paste two questions inside "string", and predict the similarity. </br>
+And test your API, Click on: POST /predict/  and select '*Try it out*'</br>
+Paste two questions inside "*string*", and predict the similarity. </br>
 And execute the command. </br>
 <img align="left" src="images/fastAPI_step_1.png" width="750"/> <br clear="left"/>
 
-I you got a response, then there should also be data inside your mongoDB Database now. </br>
-Go to your mongoDB and click 'Browse Collections', there should be two tables: Raw_input and Predictions. </br>
+I you got a response, then there should also be data inside your MongoDB Database now. </br>
+Go to your MongoDB and click '*Browse Collections*', there should be two tables: Raw_input and Predictions. </br>
 <img align="left" src="images/mongoDB_step_5.png" width="750"/> <br clear="left"/> </br>
 <img align="left" src="images/mongoDB_step_6.png" width="750"/> <br clear="left"/>
 
@@ -87,7 +87,7 @@ https://minikube.sigs.k8s.io/docs/start/ </br>
 ## 3.2 Start minikube
 > minikube start </br>
 
-## 3.3 Load Docker image to kubernetes / minikube
+## 3.3 Load Docker image to Kubernetes / minikube
 > minikube image load <span style="color: orange">-docker image name-</span> </br>
 
 ***<span style="color: orange">-docker image name-</span> = tutorial-classifier***
@@ -117,7 +117,7 @@ The port number will probably be different. </br>
 > minikube dashboard
 
 <img align="left" src="images/kubernetes_dashboard_1.png" width="750"/> <br clear="left"/>
-When the deployment just started, the cluster will use the max amount of pods in order to start-up. </br>
+When your deployment just started, the cluster will use the max amount of pods in order to start-up. </br>
 Wait until the cluster is steady with one pod only, before you start the stress/load testing on the cluster (Step 4). </br>
 
 ## <span style="color: pink">3.8 Basic commands <span>
@@ -152,7 +152,7 @@ Wait until the cluster is steady with one pod only, before you start the stress/
 > kubectl top nodes </br>
 
 # 4. Locust stress testing API
-## 4.1 Perfrom the stress/load testing on the kubernetes cluster/pods
+## 4.1 Perfrom the stress/load testing on the Kubernetes cluster/pods
 > locust -f <span style="color: orange">./kubernetes/locust_test.py</span> </br>
 
 ***Make sure to be in the root folder API_kubernetes***  </br>
@@ -164,25 +164,27 @@ Number of users: 13 </br>
 Spawn rate: 1 second </br>
 Host: This is the URL from step 3.6 (after you performed: minikube service --all) </br>
 Host will probably be something similar like: http://127.0.0.1:49700 </br>
+But with a different port number. </br>
 
-Befor you start the swarming/load testing, go back to your kubernetes dashboard: Workloads -> Pods
+Before you start the swarming/load testing, go back to your Kubernetes dashboard: </br>
+Workloads -> Pods
 <img align="left" src="images/kubernetes_dashboard_2.png" width="750"/> <br clear="left"/>
 There is probably only one pod available. </br>
 
-Now start swarming/load testing the cluster! </br>
+Now start swarming/load testing on the cluster! </br>
 Go back to your Kubernetes dashboard, and new pods will pop-up! </br>
 
-Click on one of the pod's name (in blue). </br>
+Click on one of the pod's name (in **blue**). </br>
 <img align="left" src="images/kubernetes_dashboard_3.png" width="750"/> <br clear="left"/>
 </br>
-And then click on 'view logs' in the right corner, to check whether the certain pod is being used to make predictions. </br>
+Click on '*view logs*' in the right corner, to check whether the certain pod is being used to make predictions. </br>
 <img align="left" src="images/kubernetes_dashboard_4.png" width="750"/> <br clear="left"/>
 Go through the logs of a couple of pods, to check which pods are being used continuously (set: Auto-refresh -> every 1s). </br>
 
-If you want to stop the load test, go back to your locust web UI and click 'Stop'. </br>
-Your cluster will take around ~5 minutes to auto scale down to probably one pod. </br>
+If you want to stop the load test, go back to your Locust web UI and click '*Stop*'. </br>
+Your cluster will take around *~5 minutes* to auto scale down to probably one pod. </br>
 
-If you are interested you can extend the application with your snowflake database instead of a MongoDB. </br>
+If you are interested you can extend the application with your own Snowflake database instead of a MongoDB. </br>
 The project is already prepared for this. </br>
 
 *In order to stop the minikube container, perform the following:* </br>
