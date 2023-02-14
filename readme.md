@@ -1,14 +1,14 @@
 # Introduction 
-**This repository is made by Marc Blomvliet (Aurai), and is for learning purpose only.** </br>
+**This repository is created by Marc Blomvliet (Aurai), which is solely intended for educational purposes.** </br>
 </br> 
 In this tutorial you will learn how to create an Docker image of your fastAPI application. </br>
-This application includes the following: </br>
-* Takes two questions as input</br>
+The following is included in this application: </br>
+* Accepts two questions as input</br>
 * Returns a prediction whether the two questions are similar or not similar</br>
 * Saves the raw user input data in your MongoDB database </br>
-* Saves the predictions in your MongoDB database </br></br>
+* Predictions are saved in your MongoDB database </br></br>
 
-*The application uses my own pre-trained model (with the use of MLFlow), the model is not very accurate but this is not the purpose of this training, neither to bother you with training your own model.* </br>
+*The application makes use of my own pre-trained model (with the use of MLFlow). The model is not very accurate but this is not the purpose of this training, neither to bother you with training your own model.* </br>
 
 Furthermore, you will be introduced to MongoDB to create your own FREE database. </br>
 Test your Docker image with Docker.</br>
