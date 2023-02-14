@@ -1,5 +1,7 @@
-from locust import HttpUser, task, between
 import json
+
+from locust import HttpUser, between, task
+
 
 class AppUser(HttpUser):
     wait_time = between(0.1,1.5)
