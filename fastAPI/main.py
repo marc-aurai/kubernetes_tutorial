@@ -1,16 +1,16 @@
 import datetime
 import json
+import pickle
 import uuid
 
 import mlflow
 import pandas as pd
 import pytz
+import sqlalchemy.orm as _orm
 import utils.schemas as _schemas
 import utils.services as _services
-import sqlalchemy.orm as _orm
 import uvicorn
 from fastapi import Depends, FastAPI
-import pickle
 
 app = FastAPI()
 _services.create_database()
