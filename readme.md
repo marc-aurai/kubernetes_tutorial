@@ -22,6 +22,9 @@ After you created your Kubernetes cluster, you will perform a stress/load test o
 
 *The pink sections (3.8, 3.9 and 3.10) are optional and just for information.* </br>
 
+Python modules Documentation: </br>
+https://marc-aurai.github.io/kubernetes_tutorial/ </br>
+
 # 1. Create your own MongoDB Database
 ## 1.1 
 Make sure to create your own account on the MongoDB website: </br>
