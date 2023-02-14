@@ -1,9 +1,9 @@
 import datetime
 
-import utils.database as _database
-import utils.models as _models
 import pandas as pd
 import sqlalchemy.orm as _orm
+import utils.database as _database
+import utils.models as _models
 from snowflake.connector.pandas_tools import write_pandas
 
 
