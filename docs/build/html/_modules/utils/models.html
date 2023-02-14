@@ -73,33 +73,12 @@
 
 
 <div class="viewcode-block" id="Predictions"><a class="viewcode-back" href="../../utils.html#utils.models.Predictions">[docs]</a><span class="k">class</span> <span class="nc">Predictions</span><span class="p">(</span><span class="n">_database</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This class defines the &#39;Predictions&#39; Table.</span>
-<span class="sd">        Including three columns: </span>
-<span class="sd">        id: A UUID from a host ID, sequence number, and the current time. </span>
-<span class="sd">        created_at: A datetime with timezone: Europe/Amsterdam</span>
-<span class="sd">        predictions: Prediction, whether the two questions are &#39;Similar&#39; or &#39;Not similar&#39;</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        _database (base): sqlalchemy table</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;predictions&quot;</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">_sql</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">_sql</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">created_at</span> <span class="o">=</span> <span class="n">_sql</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">_sql</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">_sql</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">_sql</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RawInput"><a class="viewcode-back" href="../../utils.html#utils.models.RawInput">[docs]</a><span class="k">class</span> <span class="nc">RawInput</span><span class="p">(</span><span class="n">_database</span><span class="o">.</span><span class="n">Base</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This class defines the &#39;Predictions&#39; Table.</span>
-<span class="sd">        Including three columns: </span>
-<span class="sd">        id: A UUID from a host ID, sequence number, and the current time. </span>
-<span class="sd">        created_at: A datetime with timezone: Europe/Amsterdam, when the request was received.</span>
-<span class="sd">        question1: Question one from the user input</span>
-<span class="sd">        question2: Question two from the user input</span>
-<span class="sd">        q1_words: Amount of words of Question 1</span>
-<span class="sd">        q2_words: Amount of words of Question 2</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        _database (base): sqlalchemy table</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;raw_input&quot;</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">_sql</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">_sql</span><span class="o">.</span><span class="n">String</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">created_at</span> <span class="o">=</span> <span class="n">_sql</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">_sql</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

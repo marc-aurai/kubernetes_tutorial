@@ -182,18 +182,6 @@ database = os.getenv(‘SNOWFLAKE_DATABASE’)</p>
 <dt class="sig sig-object py" id="utils.models.Predictions">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.models.</span></span><span class="sig-name descname"><span class="pre">Predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/models.html#Predictions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.models.Predictions" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
-<dl class="simple">
-<dt>This class defines the ‘Predictions’ Table.</dt><dd><p>Including three columns:
-id: A UUID from a host ID, sequence number, and the current time.
-created_at: A datetime with timezone: Europe/Amsterdam
-predictions: Prediction, whether the two questions are ‘Similar’ or ‘Not similar’</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>_database</strong> (<em>base</em>) – sqlalchemy table</p>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="utils.models.Predictions.created_at">
 <span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#utils.models.Predictions.created_at" title="Permalink to this definition"></a></dt>
@@ -215,21 +203,6 @@ predictions: Prediction, whether the two questions are ‘Similar’ or ‘Not s
 <dt class="sig sig-object py" id="utils.models.RawInput">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">utils.models.</span></span><span class="sig-name descname"><span class="pre">RawInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/models.html#RawInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.models.RawInput" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Base</span></code></p>
-<dl class="simple">
-<dt>This class defines the ‘Predictions’ Table.</dt><dd><p>Including three columns:
-id: A UUID from a host ID, sequence number, and the current time.
-created_at: A datetime with timezone: Europe/Amsterdam, when the request was received.
-question1: Question one from the user input
-question2: Question two from the user input
-q1_words: Amount of words of Question 1
-q2_words: Amount of words of Question 2</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>_database</strong> (<em>base</em>) – sqlalchemy table</p>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="utils.models.RawInput.created_at">
 <span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#utils.models.RawInput.created_at" title="Permalink to this definition"></a></dt>
@@ -303,40 +276,12 @@ q2_words: Amount of words of Question 2</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.create_prediction">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">create_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PredictionID</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#create_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.create_prediction" title="Permalink to this definition"></a></dt>
-<dd><p>Insert predictions data to your local sqlite Database ‘Predictions’ table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>_orm.Session</em>) – Connects to your sqlite_database.db</p></li>
-<li><p><strong>PredictionID</strong> (<em>str</em>) – A UUID from a host ID, sequence number, and the current time.</p></li>
-<li><p><strong>created_at</strong> (<em>datetime.datetime</em>) – A datetime with timezone: Europe/Amsterdam, when the request was received.</p></li>
-<li><p><strong>pred</strong> (<em>list</em>) – Prediction, whether the two questions are ‘Similar’ or ‘Not similar’</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Predictions table.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>sqlite table</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.create_rawinput">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">create_rawinput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#create_rawinput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.create_rawinput" title="Permalink to this definition"></a></dt>
-<dd><p>Insert raw user input data to your local sqlite Database ‘Raw_input’ table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>_orm.Session</em>) – Connects to your sqlite_database.db</p></li>
-<li><p><strong>id</strong> (<em>str</em>) – A UUID from a host ID, sequence number, and the current time.</p></li>
-<li><p><strong>created_at</strong> (<em>datetime.datetime</em>) – A datetime with timezone: Europe/Amsterdam, when the request was received.</p></li>
-<li><p><strong>raw_input</strong> (<em>dict</em>) – The raw input data from the user.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.get_db">
@@ -346,104 +291,32 @@ q2_words: Amount of words of Question 2</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.get_prediction">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">get_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#get_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.get_prediction" title="Permalink to this definition"></a></dt>
-<dd><p>View data from your table ‘Predictions’ from sqlite_database.db</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>_orm.Session</em>) – Connects to your sqlite_database.db</p></li>
-<li><p><strong>skip</strong> (<em>int</em><em>, </em><em>optional</em>) – Skip the first amount of rows. Defaults to 0.</p></li>
-<li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of rows to view. Defaults to 100.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns your SQL query.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Query</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.get_rawinput">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">get_rawinput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#get_rawinput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.get_rawinput" title="Permalink to this definition"></a></dt>
-<dd><p>View data from your table ‘raw_input’ from sqlite_database.db</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>db</strong> (<em>_orm.Session</em>) – Connects to your sqlite_database.db</p></li>
-<li><p><strong>skip</strong> (<em>int</em><em>, </em><em>optional</em>) – Skip the first amount of rows. Defaults to 0.</p></li>
-<li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of rows to view. Defaults to 100.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returns your SQL query.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Query</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.insert_predictions_mongodb">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">insert_predictions_mongodb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#insert_predictions_mongodb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.insert_predictions_mongodb" title="Permalink to this definition"></a></dt>
-<dd><p>Insert data to your MongoDB ‘Predictions’ table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>UUID</strong> (<em>str</em>) – A UUID from a host ID, sequence number, and the current time.</p></li>
-<li><p><strong>created_at</strong> (<em>datetime</em>) – A datetime with timezone: Europe/Amsterdam, when the request was received.</p></li>
-<li><p><strong>predictions</strong> (<em>list</em>) – Prediction, whether the two questions are ‘Similar’ or ‘Not similar’.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.insert_predictions_snowflake">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">insert_predictions_snowflake</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#insert_predictions_snowflake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.insert_predictions_snowflake" title="Permalink to this definition"></a></dt>
-<dd><p>Insert data to your snowflake ‘Predictions’ table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>UUID</strong> (<em>str</em>) – A UUID from a host ID, sequence number, and the current time.</p></li>
-<li><p><strong>created_at</strong> (<em>datetime</em>) – A datetime with timezone: Europe/Amsterdam, when the request was received.</p></li>
-<li><p><strong>predictions</strong> (<em>list</em>) – Prediction, whether the two questions are ‘Similar’ or ‘Not similar’.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.insert_raw_mongodb">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">insert_raw_mongodb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#insert_raw_mongodb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.insert_raw_mongodb" title="Permalink to this definition"></a></dt>
-<dd><p>Insert data to your MongoDB ‘Raw_input’ table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input_data</strong> (<em>dict</em>) – The raw input data from the user.</p></li>
-<li><p><strong>UUID</strong> (<em>str</em>) – A UUID from a host ID, sequence number, and the current time.</p></li>
-<li><p><strong>created_at</strong> (<em>datetime</em>) – A datetime with timezone: Europe/Amsterdam, when the request was received.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="utils.services.insert_raw_snowflake">
 <span class="sig-prename descclassname"><span class="pre">utils.services.</span></span><span class="sig-name descname"><span class="pre">insert_raw_snowflake</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">UUID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils/services.html#insert_raw_snowflake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.services.insert_raw_snowflake" title="Permalink to this definition"></a></dt>
-<dd><p>Insert data to your snowflake ‘Raw_input’ table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>input_data</strong> (<em>dict</em>) – The raw input data from the user.</p></li>
-<li><p><strong>UUID</strong> (<em>str</em>) – A UUID from a host ID, sequence number, and the current time.</p></li>
-<li><p><strong>created_at</strong> (<em>datetime</em>) – A datetime with timezone: Europe/Amsterdam, when the request was received.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </section>
 <section id="module-utils">
