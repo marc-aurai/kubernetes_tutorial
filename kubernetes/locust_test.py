@@ -6,7 +6,6 @@ class AppUser(HttpUser):
     
     @task
     def predict_page(self):
-        # data format klopt nu niet
         data_fastapi = {"question1": ["Is this a question from someone that works in Amsterdam?"],
                         "question2": ["Is this a question from a person that works in Amsterdam?"]}
 
