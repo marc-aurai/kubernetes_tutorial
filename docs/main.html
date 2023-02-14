@@ -42,11 +42,25 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">fastAPI</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">main module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">main module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#main.amount_words_in_question"><code class="docutils literal notranslate"><span class="pre">amount_words_in_question()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.create_predict"><code class="docutils literal notranslate"><span class="pre">create_predict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.predict_pipeline"><code class="docutils literal notranslate"><span class="pre">predict_pipeline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.read_predict"><code class="docutils literal notranslate"><span class="pre">read_predict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#main.read_rawinput"><code class="docutils literal notranslate"><span class="pre">read_rawinput()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="utils.html">utils package</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">main module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">main module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main.amount_words_in_question"><code class="docutils literal notranslate"><span class="pre">amount_words_in_question()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main.create_predict"><code class="docutils literal notranslate"><span class="pre">create_predict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main.predict_pipeline"><code class="docutils literal notranslate"><span class="pre">predict_pipeline()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main.read_predict"><code class="docutils literal notranslate"><span class="pre">read_predict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main.read_rawinput"><code class="docutils literal notranslate"><span class="pre">read_rawinput()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">utils package</a></li>
 </ul>
 
@@ -75,8 +89,112 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="main-module">
-<h1>main module<a class="headerlink" href="#main-module" title="Permalink to this heading"></a></h1>
+  <section id="module-main">
+<span id="main-module"></span><h1>main module<a class="headerlink" href="#module-main" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="main.amount_words_in_question">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">amount_words_in_question</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#amount_words_in_question"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.amount_words_in_question" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Create two new keys: q1_words and q2_words.</dt><dd><p>That indicated the amount of words for each question.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raw_input</strong> (<em>dict</em>) – The user input data as a dictionary.</p></li>
+<li><p><strong>keys</strong> (<em>list</em>) – The questions that you want to use to calculate the amount of words.</p></li>
+<li><p><strong>new_keys</strong> (<em>list</em>) – Give the new features a name (q1_words and q2_words by default.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An extended dictionary with the new features: q1_words and q2_words.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.create_predict">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">create_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_CreatePrediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#create_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.create_predict" title="Permalink to this definition"></a></dt>
+<dd><p>A post request, make a similarity prediction on two questions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user</strong> (<em>_schemas._CreatePrediction</em>) – The user input format.</p></li>
+<li><p><strong>db</strong> (<em>_orm.Session</em><em>, </em><em>optional</em>) – Connects to your sqlite_database.db. Defaults to Depends(_services.get_db).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>API response as a dictionary with UUID and prediction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.predict_pipeline">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">predict_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#predict_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.predict_pipeline" title="Permalink to this definition"></a></dt>
+<dd><p>Perform prediction on the loaded Xgboost model (sklearn pipeline).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – A dictionary inludinge the following keys: question1 (user input), question2 (user input)
+and the amount of words in the question (q1_words and q2_words).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Prediction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.read_predict">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">read_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#read_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.read_predict" title="Permalink to this definition"></a></dt>
+<dd><p>View data from your table ‘Predictions’ from sqlite_database.db</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip</strong> (<em>int</em><em>, </em><em>optional</em>) – Skip the first amount of rows. Defaults to 0.</p></li>
+<li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of rows to view. Defaults to 10.</p></li>
+<li><p><strong>db</strong> (<em>_orm.Session</em><em>, </em><em>optional</em>) – Connects to your sqlite_database.db. Defaults to Depends(_services.get_db).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns your SQL query.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Query</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="main.read_rawinput">
+<span class="sig-prename descclassname"><span class="pre">main.</span></span><span class="sig-name descname"><span class="pre">read_rawinput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">skip</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">Depends(get_db)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/main.html#read_rawinput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#main.read_rawinput" title="Permalink to this definition"></a></dt>
+<dd><p>View data from your table ‘raw_input’ from sqlite_database.db</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>skip</strong> (<em>int</em><em>, </em><em>optional</em>) – Skip the first amount of rows. Defaults to 0.</p></li>
+<li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Amount of rows to view. Defaults to 10.</p></li>
+<li><p><strong>db</strong> (<em>_orm.Session</em><em>, </em><em>optional</em>) – Connects to your sqlite_database.db. Defaults to Depends(_services.get_db).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns your SQL query.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Query</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
