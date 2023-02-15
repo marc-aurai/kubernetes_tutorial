@@ -16,7 +16,7 @@ app = FastAPI()
 _services.create_database()
 
 logged_model = "./question_model"
-loaded_model = mlflow.pyfunc.load_model(logged_model)
+loaded_model = mlflow.pyfunc.load_model(logged_model, suppress_warnings=True)
 
 labels = json.load(open("./utils/labels.json"))
 

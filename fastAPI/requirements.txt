@@ -11,5 +11,5 @@ SQLAlchemy==1.4.41
 uvicorn==0.16.0
 boto3==1.26.28
 ray==2.0.1
-scikit_learn==1.2.1
+scikit_learn==1.0.2
 xgboost==1.6.2
