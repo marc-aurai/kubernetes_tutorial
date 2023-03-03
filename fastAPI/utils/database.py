@@ -21,8 +21,8 @@ Base = _declarative.declarative_base()
 
 
 # MONGO_DB  
-client = pymongo.MongoClient("mongodb+srv://fastapi-classifier:{}@{}.bitz3o4.mongodb.net/?retryWrites=true&w=majority".format(
-    os.getenv("MONGODB_PASSWORD"), os.getenv("MONGODB_SHARED_CLUSTER_NAME"))
+client = pymongo.MongoClient("mongodb+srv://{}:{}@{}.{}.mongodb.net/?retryWrites=true&w=majority".format(
+    os.getenv("MONGDB_USERNAME"), os.getenv("MONGODB_PASSWORD"), os.getenv("MONGODB_SHARED_CLUSTER_NAME"), os.getenv("MONGODB_CODELINK"))
     )
 db = client.Questions_classifier_DB
 raw_input_mongoDB = db["Raw_input"]
