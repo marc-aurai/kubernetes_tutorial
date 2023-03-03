@@ -49,8 +49,8 @@ Create one with a username and password. </br>
 
 ## 1.1.4 Update the .env 
 Update the file with your own credentials. </br>
-MONGODB_CODELINK: Check the connection string with connect to application (driver= python >3.6)
-MONGDB_USERNAME: Is your username that you used to sign in.
+MONGODB_CODELINK: Check the connection string with connect to application (driver= python >3.6)</br>
+MONGDB_USERNAME: Is your username that you used to sign in.</br>
 MONGODB_PASSWORD: Is the password that you created for your database user in step 1.1.3 </br>
 MONGODB_SHARED_CLUSTER_NAME: Is the name of your cluster (step 1.1.2), by default it is 'Cluster0'. </br>
 
@@ -94,7 +94,7 @@ https://minikube.sigs.k8s.io/docs/start/ </br>
 > minikube start </br>
 
 ## 3.3 Load Docker image to Kubernetes / minikube
-LET OP! Dit kan zo'n ~10 minuten tot 15 minuten duren
+LET OP! Dit kan zo'n ~10 minuten tot 15 minuten duren </br>
 > minikube image load <span style="color: orange">-docker image name-</span> </br>
 
 ***<span style="color: orange">-docker image name-</span> = tutorial-classifier***
