@@ -160,6 +160,9 @@ Wait until the cluster is steady with one pod only, before you start the stress/
 
 # 4. Locust stress testing API
 ## 4.1 Perfrom the stress/load testing on the Kubernetes cluster/pods
+
+> pip install locust </br>
+
 > locust -f <span style="color: orange">./kubernetes/locust_test.py</span> </br>
 
 ***Make sure to be in the root folder API_kubernetes***  </br>
