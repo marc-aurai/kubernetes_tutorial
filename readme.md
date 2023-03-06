@@ -105,8 +105,11 @@ LET OP! Dit kan zo'n ~10 minuten tot 15 minuten duren </br>
 ***Make sure to be in the root folder API_kubernetes/kubernetes/***  </br>
 </br>
 
-Check if the metric server is working: </br>
+Check if the metric server is working (MacOS): </br>
 > kubectl get pods -n kube-system | grep metrics-server </br>
+
+Check if the metric server is working (Windows): </br>
+> kubectl get pods -n kube-system | metrics-server </br>
 
 ## 3.5 Deploy with your cluster_config.yml (config file)
 > kubectl apply -f <span style="color: orange">cluster_config.yml</span> </br>
